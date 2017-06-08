@@ -6,14 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 
-
-import java.util.Iterator;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
-
-
 public class JPAExample {
 
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
@@ -21,9 +13,9 @@ public class JPAExample {
     public static void main(String[] args) {
         JPAExample example = new JPAExample();
         System.out.println("STEP 1.");
-        tmp_Student student1 = example.saveStudent("SuperMan1");
+        tmp_student student1 = example.saveStudent("SuperMan1");
         System.out.println("STEP 2.");
-        tmp_Student student2 = example.saveStudent("SuperMan2");
+        tmp_student student2 = example.saveStudent("SuperMan2");
         System.out.println("STEP 3.");
         example.listStudent();
         /*        System.out.println("STEP 4.");
@@ -40,8 +32,8 @@ public class JPAExample {
 
     }
 
-    public tmp_Student saveStudent(String studentName) {
-        tmp_Student student = new tmp_Student();
+    public tmp_student saveStudent(String studentName) {
+        tmp_student student = new tmp_student();
         try {
             entityManager.getTransaction().begin();
             student.setStudentName(studentName);
@@ -58,14 +50,14 @@ public class JPAExample {
         try {
             entityManager.getTransaction().begin();
             @SuppressWarnings("unchecked")
-            List<tmp_Student> Students = entityManager.createQuery("select s from tmp_student s").getResultList();
-            for (Iterator<tmp_Student> iterator = Students.iterator(); iterator.hasNext();) {
-                tmp_Student student = (tmp_Student) iterator.next();
+            List<tmp_student> Students = entityManager.createQuery("select s from tmp_student s").getResultList();
+            for (Iterator<tmp_student> iterator = Students.iterator(); iterator.hasNext();) {
+                tmp_student student = (tmp_student) iterator.next();
                 System.out.println(student.getStudentName());
             }
             entityManager.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("-*-*-*-* listStudent экзепшн");
+            System.out.println("-*-*-*-* listStudent экзепшн "+e.getMessage());
             entityManager.getTransaction().rollback();
         }
     }
@@ -73,7 +65,7 @@ public class JPAExample {
     public void updateStudent(Long studentId, String studentName) {
         try {
             entityManager.getTransaction().begin();
-            tmp_Student student = (tmp_Student) entityManager.find(tmp_Student.class, studentId);
+            tmp_student student = (tmp_student) entityManager.find(tmp_student.class, studentId);
             student.setStudentName(studentName);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
@@ -85,7 +77,7 @@ public class JPAExample {
     public void deleteStudent(Long studentId) {
         try {
             entityManager.getTransaction().begin();
-            tmp_Student student = (tmp_Student) entityManager.find(tmp_Student.class, studentId);
+            tmp_student student = (tmp_student) entityManager.find(tmp_student.class, studentId);
             entityManager.remove(student);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
